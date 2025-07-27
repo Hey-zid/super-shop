@@ -27,16 +27,16 @@ def get_products_by_id(products):
     while True:
         try:
             product_id = int(input("Enter UNIQUE ID of the product : "))
-            if 1 <= product_id <= 10:
-                for product in products:
-                    if int(product[0]) == product_id:
-                        product_name= product[1]
-                        product_price = float(product[2])
-                        print(f"\nTHE PRODUCT NAME IS, {product_name}!\n")
-                        return product_id, product_name,product_price
-                print("Product ID not found.\n")
-            else:
-                print("Invalid Product ID. Please try again.\n")
+            #if 1 <= product_id <= 10:
+            for product in products:
+                if int(product[0]) == product_id:
+                    product_name= product[1]
+                    product_price = float(product[2])
+                    print(f"\nTHE PRODUCT NAME IS, {product_name}!\n")
+                    return product_id, product_name,product_price
+            print("Product ID not found.\n")
+            #else:
+               # print("Invalid Product ID. Please try again.\n")
         except ValueError:
             print("Please enter a valid number.\n")
 
