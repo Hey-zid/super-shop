@@ -172,28 +172,31 @@ def product_satus(products, sales_products):
 # Main Menu
 # ------------------------------
 def main():
-    print("Press 1 for Entry",'\n'"Press 2 for Total sale",'\n'"Press 3 to know a random days sale",'\n'"Press 4 for product status")
     while True:
+        print("\nPress 1 for Entry")
+        print("Press 2 for Total sale")
+        print("Press 3 to know a random day's sale")
+        print("Press 4 for product status")
+        print("Press 5 to Exit\n")
         try:
             choice = int(input("Enter your choice: "))
             if choice == 1:
                 products = load_products()
-                product_id, product_name,product_price = get_products_by_id(products)
-                product_entry(product_id, product_name,product_price)
-                break
+                product_id, product_name, product_price = get_products_by_id(products)
+                product_entry(product_id, product_name, product_price)
             elif choice == 2:
                 total_sales()
-                break
             elif choice == 3:
                 daily_sales()
-                break
             elif choice == 4:
                 products = load_products()
                 sales_products = load_sales()
-                product_satus(products,sales_products)
-                break
+                product_satus(products, sales_products)
+            elif choice == 5:
+                print("Exiting the program. Goodbye!")
+                break  # Exit the loop and program
             else:
-                print("Invalid input. You must press 1 or 2.\n")
+                print("Invalid input. Please press 1, 2, 3, 4, or 5.\n")
         except ValueError:
             print("Please enter a valid number.\n")
 
