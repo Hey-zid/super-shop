@@ -42,38 +42,66 @@ def get_products_by_id(products):
 
 
 # ------------------------------
-# Product Entry Function
+# Product Entry Function (Modified with inventory update)
 # ------------------------------
-def product_entry(product_id, product_name,product_price):
-    print("Product entry function is called.\n")
+def product_entry(product_id, product_name, product_price, products):
     from datetime import datetime
     today = datetime.now().strftime("%d-%m-%Y")
+
     while True:
         try:
             product_count = int(input("Quantity: "))
-
             break
         except ValueError:
-            print("Please enter a valid number for meals.")
-    price = (product_count * product_price)
-    with open("Products.update.txt", "a") as product_file:
-        product_file.write(f"{today:<12}, {product_id:<8}, {product_count:<5},{price}\n")
+            print("Please enter a valid number for quantity.")
 
-    print("\nYour product entry saved successfully!\n")
+    updated_products = []
+    remaining_stock = None
+
+    for product in products:
+        if int(product[0]) == product_id:
+            current_stock = int(product[4])
+            if product_count > current_stock:
+                print(f"❌ Not enough stock! Available: {current_stock}")
+                return
+            remaining_stock = current_stock - product_count
+            product[4] = str(remaining_stock)   # ✅ only stock reducing in info file
+        updated_products.append(product)
+
+    # Rewrite Products.info.txt in clean aligned format
+    with open("Products.info.txt", "w") as file:
+        for product in updated_products:
+            line = "{:<2}, {:<12}, {:<4}, {:<4}, {:<5}\n".format(
+                product[0].strip(),
+                product[1].strip(),
+                product[2].strip(),
+                product[3].strip(),
+                product[4].strip()
+            )
+            file.write(line)
+
+    # Save sale record in Products.update.txt (with remaining stock)
+    price = product_count * product_price
+    with open("Products.update.txt", "a") as product_file:
+        product_file.write(f"{today:<12}, {product_id:<5}, {product_count:<5}, {price:<8}, {remaining_stock}\n")
+
+    print(f"\n✅ Sale saved! Remaining stock of {product_name}: {remaining_stock}\n")
+
+
 
 
 # ------------------------------
 # To find Total sale
 # ------------------------------
 def total_sales():
-    sum=0
+    summ=0
     filename = "Products.update.txt"
 
     with open(filename, 'r') as file:
         for line in file:
             parts = line.strip().split(',')
-            sum = sum + float(parts[3])
-        print(sum)
+            summ = summ + float(parts[3])
+        print(summ)
     return parts
 
 # ------------------------------
@@ -177,13 +205,13 @@ def main():
         print("Press 2 for Total sale")
         print("Press 3 to know a random day's sale")
         print("Press 4 for product status")
-        print("Press 5 to Exit\n")
+        print("Press 0 to Exit\n")
         try:
             choice = int(input("Enter your choice: "))
             if choice == 1:
                 products = load_products()
                 product_id, product_name, product_price = get_products_by_id(products)
-                product_entry(product_id, product_name, product_price)
+                product_entry(product_id, product_name, product_price,products)
             elif choice == 2:
                 total_sales()
             elif choice == 3:
@@ -192,7 +220,7 @@ def main():
                 products = load_products()
                 sales_products = load_sales()
                 product_satus(products, sales_products)
-            elif choice == 5:
+            elif choice == 0:
                 print("Exiting the program. Goodbye!")
                 break  # Exit the loop and program
             else:
