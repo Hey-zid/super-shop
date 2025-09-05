@@ -4,6 +4,8 @@ A simple **Python-based shop management system** to manage product inventory, re
 
 This project is designed for **small businesses and students** who want to practice file handling, structured data management, and basic reporting in Python.  
 
+"I am determined to develop this project into a comprehensive and widely-used SupperShop management system in the future."
+
 ---
 
 ## 🚀 Features  
@@ -40,7 +42,7 @@ This project is designed for **small businesses and students** who want to pract
 ```
 📦 SupperShop-Management-System
  ┣ 📜 main.py               # Main program
- ┣ 📜 Products.info.txt     # Product details (ID, name, price, cost, stock)
+ ┣ 📜 Products.info.txt     # Product details (ID, NAME, PRICE, SELLING COST, STOCK)
  ┣ 📜 Products.update.txt   # Sales transactions
  ┗ 📜 README.md             # Documentation
 ```
